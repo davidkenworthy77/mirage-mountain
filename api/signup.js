@@ -39,12 +39,14 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
-      throw new Error('Airtable request failed');
+      const errorBody = await response.text();
+      console.error('Airtable error:', response.status, errorBody);
+      return res.status(502).json({ error: 'Airtable request failed', status: response.status, detail: errorBody });
     }
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error('Signup error:', err);
-    return res.status(500).json({ error: 'Failed to save signup' });
+    console.error('Signup error:', err.message);
+    return res.status(500).json({ error: 'Failed to save signup', detail: err.message });
   }
 }
