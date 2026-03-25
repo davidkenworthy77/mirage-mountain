@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirage Mountain Resort | Coming Soon</title>
+    <meta name="description" content="Mirage Mountain Resort at Palomar Mountain, San Diego County. 6,100 ft of elevation. Southern California's best-kept secret is about to appear.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miragemountainresort.com">
+    <meta property="og:title" content="Mirage Mountain Resort | Coming Winter 2026">
+    <meta property="og:description" content="Rising 6,100 feet above San Diego County. The best mountain you've never seen. Arrive a skeptic. Leave a believer.">
+    <meta property="og:image" content="https://miragemountainresort.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mirage Mountain Resort | Coming Winter 2026">
+    <meta name="twitter:description" content="Rising 6,100 feet above San Diego County. The best mountain you've never seen.">
+    <meta name="twitter:image" content="https://miragemountainresort.com/og-image.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0B1D3A;
+            --slate: #1E3150;
+            --ice: #E8F0FE;
+            --frost: #B8D4F0;
+            --gold: #D4A843;
+            --white: #FFFFFF;
+            --snow: #F5F7FA;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated mountain background */
+        .bg-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-scene svg {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stars */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--white);
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        /* Snow particles */
+        .snowfall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Main content */
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 168, 67, 0.15);
+            border: 1px solid rgba(212, 168, 67, 0.3);
+            color: var(--gold);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .logo-text span {
+            display: block;
+            padding-bottom: 0.1em;
+            background: linear-gradient(135deg, var(--white) 0%, var(--frost) 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .resort-label {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.75rem, 2vw, 1rem);
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--frost);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.1rem, 3vw, 1.65rem);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--frost);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .sub-tagline {
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            font-weight: 300;
+            color: rgba(184, 212, 240, 0.7);
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        /* Stats bar */
+        .stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 1s both;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--frost);
+            margin-top: 0.25rem;
+        }
+
+        .divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(184, 212, 240, 0.2);
+            align-self: center;
+        }
+
+        /* Email signup */
+        .signup {
+            animation: fadeInUp 1s ease-out 1.2s both;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .signup-form {
+            display: flex;
+            gap: 0;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 100px;
+            padding: 4px;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s ease;
+        }
+
+        .signup-form:focus-within {
+            border-color: var(--gold);
+        }
+
+        .signup-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0.875rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--white);
+        }
+
+        .signup-form input::placeholder {
+            color: rgba(184, 212, 240, 0.5);
+        }
+
+        .signup-form button {
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 0.875rem 1.75rem;
+            border-radius: 100px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .signup-form button:hover {
+            background: #e0b84f;
+            transform: scale(1.02);
+        }
+
+        .signup-note {
+            font-size: 0.75rem;
+            color: rgba(184, 212, 240, 0.4);
+            margin-top: 0.75rem;
+        }
+
+        /* Observatory callout */
+        .observatory {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 0.6rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: rgba(184, 212, 240, 0.6);
+            animation: fadeInUp 1s ease-out 1.4s both;
+        }
+
+        .observatory svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--gold);
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.75rem;
+            color: rgba(184, 212, 240, 0.3);
+        }
+
+        .footer a {
+            color: rgba(184, 212, 240, 0.5);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .stats {
+                gap: 1.5rem;
+            }
+            .divider {
+                display: none;
+            }
+            .signup-form {
+                flex-direction: column;
+                border-radius: 16px;
+                padding: 8px;
+            }
+            .signup-form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background scene -->
+    <div class="bg-scene">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+            <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#060E1A"/>
+                    <stop offset="40%" stop-color="#0B1D3A"/>
+                    <stop offset="100%" stop-color="#1E3150"/>
+                </linearGradient>
+                <linearGradient id="mountain1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#1a2d4a"/>
+                    <stop offset="100%" stop-color="#0f1f35"/>
+                </linearGradient>
+                <linearGradient id="mountain2" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#162542"/>
+                    <stop offset="100%" stop-color="#0a1628"/>
+                </linearGradient>
+                <linearGradient id="snow-cap" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
+                    <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                </linearGradient>
+            </defs>
+            <rect width="1440" height="900" fill="url(#sky)"/>
+            <!-- Far mountains -->
+            <path d="M0 650 L200 420 L350 500 L500 350 L650 480 L800 380 L950 450 L1100 320 L1250 430 L1440 360 L1440 900 L0 900Z" fill="url(#mountain2)" opacity="0.5"/>
+            <!-- Near mountains -->
+            <path d="M-100 900 L150 450 L300 550 L500 380 L620 500 L780 350 L900 480 L1050 400 L1200 500 L1350 420 L1540 550 L1540 900Z" fill="url(#mountain1)"/>
+            <!-- Snow caps hint -->
+            <path d="M480 380 L500 380 L510 395 L490 395Z" fill="url(#snow-cap)"/>
+            <path d="M760 350 L780 350 L795 370 L765 370Z" fill="url(#snow-cap)"/>
+            <path d="M1080 320 L1100 320 L1115 345 L1085 345Z" fill="url(#snow-cap)"/>
+            <!-- Treeline -->
+            <path d="M0 700 Q100 680 200 700 Q300 690 400 705 Q500 695 600 700 Q700 685 800 700 Q900 695 1000 700 Q1100 690 1200 705 Q1300 695 1440 700 L1440 900 L0 900Z" fill="#0a1628"/>
+        </svg>
+    </div>
+
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Snowfall -->
+    <div class="snowfall" id="snowfall"></div>
+
+    <!-- Main content -->
+    <main class="content">
+        <div class="badge">Coming Winter 2026</div>
+
+        <h1 class="logo-text">
+            <span>Mirage Mountain</span>
+        </h1>
+        <p class="resort-label">Resort</p>
+
+        <p class="tagline">The best mountain you've never seen.</p>
+        <p class="sub-tagline">
+            Rising 6,100 feet above San Diego County, something extraordinary is taking shape on Palomar Mountain. Arrive a skeptic. Leave a believer.
+        </p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">6,100'</div>
+                <div class="stat-label">Summit Elevation</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+                <div class="stat-value">Palomar</div>
+                <div class="stat-label">Mountain</div>
+            </div>
+            <div class="divider"></div>
+            <div class="stat">
+                <div class="stat-value">San Diego</div>
+                <div class="stat-label">County, CA</div>
+            </div>
+        </div>
+
+        <div class="signup">
+            <form class="signup-form" onsubmit="handleSignup(event)">
+                <input type="email" placeholder="Enter your email for first tracks" required>
+                <button type="submit">Get Notified</button>
+            </form>
+            <p class="signup-note">Be the first to know when the mountain reveals itself.</p>
+        </div>
+
+        <div class="observatory">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+            Home of the historic Palomar Observatory. Ski by day. Stargaze by night.
+        </div>
+    </main>
+
+    <footer class="footer">
+        &copy; 2026 Mirage Mountain Resort. Palomar Mountain, CA &mdash; miragemountainresort.com
+    </footer>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (2 + Math.random() * 3) + 's';
+            star.style.width = star.style.height = (1 + Math.random() * 2) + 'px';
+            starsContainer.appendChild(star);
+        }
+
+        // Generate snowflakes
+        const snowfall = document.getElementById('snowfall');
+        for (let i = 0; i < 40; i++) {
+            const flake = document.createElement('div');
+            flake.className = 'snowflake';
+            flake.style.left = Math.random() * 100 + '%';
+            flake.style.animationDuration = (5 + Math.random() * 10) + 's';
+            flake.style.animationDelay = Math.random() * 10 + 's';
+            flake.style.opacity = 0.2 + Math.random() * 0.5;
+            flake.style.width = flake.style.height = (2 + Math.random() * 4) + 'px';
+            snowfall.appendChild(flake);
+        }
+
+        // Signup handler
+        async function handleSignup(e) {
+            e.preventDefault();
+            const input = e.target.querySelector('input');
+            const button = e.target.querySelector('button');
+            const email = input.value;
+            const originalText = button.textContent;
+
+            button.textContent = 'Sending...';
+            button.disabled = true;
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (response.ok) {
+                    button.textContent = "You're In!";
+                    button.style.background = '#4CAF50';
+                    input.value = '';
+                } else {
+                    throw new Error('Failed');
+                }
+            } catch (err) {
+                button.textContent = 'Try Again';
+                button.style.background = '#e74c3c';
+            }
+
+            button.disabled = false;
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
