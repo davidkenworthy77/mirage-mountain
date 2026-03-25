@@ -1,4 +1,6 @@
-export default async function handler(req, res) {
+const https = require('https');
+
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -19,34 +21,47 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(
-      `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_ID}`,
-      {
+    const data = JSON.stringify({
+      records: [{
+        fields: {
+          'Email': email,
+          'Signed Up At': new Date().toISOString()
+        }
+      }]
+    });
+
+    const result = await new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.airtable.com',
+        path: `/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_ID}`,
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${process.env.AIRTABLE_PAT}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          records: [{
-            fields: {
-              'Email': email,
-              'Signed Up At': new Date().toISOString()
-            }
-          }]
-        })
-      }
-    );
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(data)
+        }
+      };
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('Airtable error:', response.status, errorBody);
-      return res.status(502).json({ error: 'Airtable request failed', status: response.status, detail: errorBody });
-    }
+      const request = https.request(options, (response) => {
+        let body = '';
+        response.on('data', chunk => body += chunk);
+        response.on('end', () => {
+          if (response.statusCode >= 200 && response.statusCode < 300) {
+            resolve(body);
+          } else {
+            reject(new Error(`Airtable ${response.statusCode}: ${body}`));
+          }
+        });
+      });
+
+      request.on('error', reject);
+      request.write(data);
+      request.end();
+    });
 
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error('Signup error:', err.message);
     return res.status(500).json({ error: 'Failed to save signup', detail: err.message });
   }
-}
+};
