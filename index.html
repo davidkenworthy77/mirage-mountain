@@ -26,7 +26,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700;900&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after {
             margin: 0;
@@ -35,238 +35,247 @@
         }
 
         :root {
-            --navy: #0B1D3A;
-            --slate: #1E3150;
-            --ice: #E8F0FE;
-            --frost: #B8D4F0;
-            --gold: #D4A843;
+            --gold: #EAA732;
+            --red: #DD4D39;
+            --navy: #243F5C;
+            --sage: #A7BEA3;
+            --cream: #F3EBD8;
+            --cream-dark: #E8DDCA;
             --white: #FFFFFF;
-            --snow: #F5F7FA;
+            --navy-light: #2E5070;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--navy);
-            color: var(--white);
+            font-family: 'Roboto', sans-serif;
+            background: var(--cream);
+            color: var(--navy);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Animated mountain background */
-        .bg-scene {
+        /* Paper texture */
+        .texture {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bg-scene svg {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Stars */
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            z-index: 1;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--white);
-            border-radius: 50%;
-            animation: twinkle 3s infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.2; }
-            100% { opacity: 1; }
-        }
-
-        /* Snow particles */
-        .snowfall {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 100;
             pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: fall linear infinite;
+        /* ===== RETRO STRIPE BAR ===== */
+        .stripe-bar {
+            display: flex;
+            height: 6px;
+            width: 100%;
         }
+        .stripe-bar .s1 { flex: 1; background: var(--gold); }
+        .stripe-bar .s2 { flex: 1; background: var(--red); }
+        .stripe-bar .s3 { flex: 1; background: var(--navy); }
+        .stripe-bar .s4 { flex: 1; background: var(--sage); }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
-
-        /* Main content */
-        .content {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
+        .stripe-lines {
             display: flex;
             flex-direction: column;
+            gap: 3px;
+            width: 120px;
+        }
+        .stripe-lines span {
+            height: 3px;
+            border-radius: 1px;
+        }
+        .stripe-lines .l1 { background: var(--gold); }
+        .stripe-lines .l2 { background: var(--red); }
+        .stripe-lines .l3 { background: var(--navy); }
+        .stripe-lines .l4 { background: var(--sage); }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 2.5rem 2rem 0;
+            position: relative;
+            z-index: 10;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        .header-top {
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(212, 168, 67, 0.15);
-            border: 1px solid rgba(212, 168, 67, 0.3);
-            color: var(--gold);
-            padding: 0.5rem 1.25rem;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .logo-text span {
-            display: block;
-            padding-bottom: 0.1em;
-            background: linear-gradient(135deg, var(--white) 0%, var(--frost) 50%, var(--gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .resort-label {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(0.75rem, 2vw, 1rem);
-            font-weight: 500;
-            letter-spacing: 0.35em;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 900;
             text-transform: uppercase;
-            color: var(--frost);
-            margin-bottom: 2.5rem;
-            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
-        .tagline {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.1rem, 3vw, 1.65rem);
-            font-weight: 400;
-            font-style: italic;
-            color: var(--frost);
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease-out 0.6s both;
+        .logo-text .mirage {
+            display: block;
+            font-size: clamp(3.5rem, 11vw, 7rem);
+            line-height: 0.85;
+            color: var(--navy);
+            letter-spacing: -0.02em;
         }
 
-        .sub-tagline {
-            font-size: clamp(0.85rem, 1.5vw, 1rem);
+        .logo-text .mountain {
+            display: block;
+            font-size: clamp(3.5rem, 11vw, 7rem);
+            line-height: 0.85;
+            color: var(--navy);
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .subtitle-text {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+
+        .subtitle-line {
+            height: 2px;
+            width: 40px;
+            background: var(--red);
+            border-radius: 1px;
+        }
+
+        /* ===== ILLUSTRATION ===== */
+        .illustration {
+            width: 100%;
+            max-width: 900px;
+            margin: 1.5rem auto 0;
+            position: relative;
+            z-index: 5;
+            animation: fadeUp 1s ease-out 0.15s both;
+        }
+
+        .illustration svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== BADGE ===== */
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            margin-top: -2rem;
+            position: relative;
+            z-index: 15;
+            animation: fadeUp 0.8s ease-out 0.3s both;
+        }
+
+        .badge {
+            background: var(--navy);
+            color: var(--cream);
+            padding: 0.6rem 2rem;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            border: 2px solid var(--gold);
+        }
+
+        /* ===== CONTENT CARD ===== */
+        .card {
+            position: relative;
+            z-index: 10;
+            max-width: 640px;
+            margin: 1.5rem auto 0;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            animation: fadeUp 0.8s ease-out 0.4s both;
+        }
+
+        .card-headline {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            text-transform: uppercase;
+            color: var(--navy);
+            line-height: 1.15;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-headline em {
+            font-style: normal;
+            color: var(--red);
+        }
+
+        .card-body {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
             font-weight: 300;
-            color: rgba(184, 212, 240, 0.7);
-            max-width: 520px;
+            color: var(--navy);
             line-height: 1.7;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out 0.8s both;
+            margin-bottom: 2rem;
+            opacity: 0.8;
         }
 
-        /* Stats bar */
+        /* ===== STATS ===== */
         .stats {
             display: flex;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease-out 1s both;
-            flex-wrap: wrap;
             justify-content: center;
+            gap: 0;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .stat {
             text-align: center;
+            padding: 0.75rem 1.5rem;
+            border-right: 1px solid rgba(36, 63, 92, 0.15);
         }
 
+        .stat:last-child { border-right: none; }
+
         .stat-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--white);
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: var(--gold);
+            text-transform: uppercase;
         }
 
         .stat-label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.15em;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--frost);
-            margin-top: 0.25rem;
+            color: var(--navy);
+            margin-top: 0.2rem;
+            opacity: 0.5;
         }
 
-        .divider {
-            width: 1px;
-            height: 50px;
-            background: rgba(184, 212, 240, 0.2);
-            align-self: center;
-        }
-
-        /* Email signup */
+        /* ===== SIGNUP ===== */
         .signup {
-            animation: fadeInUp 1s ease-out 1.2s both;
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
+            margin: 0 auto;
         }
 
         .signup-form {
             display: flex;
             gap: 0;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 100px;
-            padding: 4px;
-            backdrop-filter: blur(10px);
+            overflow: hidden;
+            border-radius: 4px;
+            border: 2px solid var(--navy);
             transition: border-color 0.3s ease;
         }
 
@@ -276,177 +285,272 @@
 
         .signup-form input {
             flex: 1;
-            background: transparent;
+            background: var(--white);
             border: none;
             outline: none;
-            padding: 0.875rem 1.5rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: var(--white);
+            padding: 0.85rem 1.25rem;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            color: var(--navy);
         }
 
         .signup-form input::placeholder {
-            color: rgba(184, 212, 240, 0.5);
+            color: var(--sage);
         }
 
         .signup-form button {
-            background: var(--gold);
-            color: var(--navy);
+            background: var(--red);
+            color: var(--white);
             border: none;
-            padding: 0.875rem 1.75rem;
-            border-radius: 100px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
+            padding: 0.85rem 1.5rem;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease;
             white-space: nowrap;
         }
 
         .signup-form button:hover {
-            background: #e0b84f;
-            transform: scale(1.02);
+            background: #C4402F;
         }
 
         .signup-note {
-            font-size: 0.75rem;
-            color: rgba(184, 212, 240, 0.4);
-            margin-top: 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: var(--navy);
+            opacity: 0.4;
+            margin-top: 0.6rem;
+            font-style: italic;
         }
 
-        /* Observatory callout */
+        /* ===== OBSERVATORY ===== */
         .observatory {
-            display: inline-flex;
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
-            margin-top: 3rem;
-            padding: 0.6rem 1.25rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            margin-top: 1.75rem;
             font-size: 0.8rem;
-            color: rgba(184, 212, 240, 0.6);
-            animation: fadeInUp 1s ease-out 1.4s both;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--navy);
+            opacity: 0.55;
         }
 
-        .observatory svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--gold);
+        .obs-icon {
+            width: 18px;
+            height: 18px;
         }
 
-        /* Footer */
+        /* ===== RETRO BOTTOM STRIPES ===== */
+        .bottom-stripes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2.5rem auto 0;
+            max-width: 300px;
+        }
+
+        .bottom-stripes .stripe-lines { width: 80px; }
+
+        .bottom-sun {
+            width: 36px;
+            height: 36px;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
+            text-align: center;
+            padding: 1.25rem 2rem 0.75rem;
             position: relative;
             z-index: 10;
-            text-align: center;
-            padding: 2rem;
-            font-size: 0.75rem;
-            color: rgba(184, 212, 240, 0.3);
         }
 
-        .footer a {
-            color: rgba(184, 212, 240, 0.5);
-            text-decoration: none;
+        .footer-text {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--navy);
+            opacity: 0.3;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Gentle snow */
+        .snowfall {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 50;
+            pointer-events: none;
         }
 
-        /* Mobile adjustments */
+        .snowflake {
+            position: absolute;
+            top: -5px;
+            border-radius: 50%;
+            background: rgba(36, 63, 92, 0.06);
+            animation: drift linear infinite;
+        }
+
+        @keyframes drift {
+            to { transform: translateY(100vh) translateX(20px); }
+        }
+
+        /* ===== MOBILE ===== */
         @media (max-width: 600px) {
-            .stats {
-                gap: 1.5rem;
-            }
-            .divider {
-                display: none;
-            }
+            .stat { padding: 0.5rem 1rem; border-right: none; }
+            .stats { gap: 0.25rem; }
             .signup-form {
                 flex-direction: column;
-                border-radius: 16px;
-                padding: 8px;
             }
-            .signup-form button {
-                width: 100%;
-            }
+            .signup-form button { width: 100%; }
+            .header-top { flex-direction: column; gap: 0.5rem; }
+            .subtitle-line { width: 25px; }
+            .card { padding: 1.5rem 1.25rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background scene -->
-    <div class="bg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">
+    <!-- Top stripe bar -->
+    <div class="stripe-bar">
+        <div class="s1"></div>
+        <div class="s2"></div>
+        <div class="s3"></div>
+        <div class="s4"></div>
+    </div>
+
+    <!-- Paper texture -->
+    <div class="texture"></div>
+
+    <!-- Gentle snow -->
+    <div class="snowfall" id="snowfall"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="logo-text">
+            <span class="mirage">Mirage</span>
+            <span class="mountain">Mountain</span>
+        </h1>
+        <div class="subtitle-row">
+            <div class="subtitle-line"></div>
+            <span class="subtitle-text">Ski Resort</span>
+            <div class="subtitle-line"></div>
+        </div>
+    </header>
+
+    <!-- Mountain Illustration -->
+    <div class="illustration">
+        <svg viewBox="0 0 1000 380" preserveAspectRatio="xMidYMid meet">
             <defs>
                 <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#060E1A"/>
-                    <stop offset="40%" stop-color="#0B1D3A"/>
-                    <stop offset="100%" stop-color="#1E3150"/>
+                    <stop offset="0%" stop-color="#A7BEA3" stop-opacity="0.4"/>
+                    <stop offset="40%" stop-color="#EAA732" stop-opacity="0.25"/>
+                    <stop offset="70%" stop-color="#DD4D39" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#F3EBD8" stop-opacity="0"/>
                 </linearGradient>
-                <linearGradient id="mountain1" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#1a2d4a"/>
-                    <stop offset="100%" stop-color="#0f1f35"/>
+                <linearGradient id="mtn-back" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3A5A7C"/>
+                    <stop offset="100%" stop-color="#243F5C"/>
                 </linearGradient>
-                <linearGradient id="mountain2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#162542"/>
-                    <stop offset="100%" stop-color="#0a1628"/>
+                <linearGradient id="mtn-front" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#243F5C"/>
+                    <stop offset="100%" stop-color="#1A2D40"/>
                 </linearGradient>
-                <linearGradient id="snow-cap" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
-                    <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+                <linearGradient id="snow-top" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFFFFF"/>
+                    <stop offset="100%" stop-color="#E8E0D0"/>
+                </linearGradient>
+                <linearGradient id="sunset-sky" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#EAA732"/>
+                    <stop offset="50%" stop-color="#DD4D39" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#DD4D39" stop-opacity="0.2"/>
                 </linearGradient>
             </defs>
-            <rect width="1440" height="900" fill="url(#sky)"/>
-            <!-- Far mountains -->
-            <path d="M0 650 L200 420 L350 500 L500 350 L650 480 L800 380 L950 450 L1100 320 L1250 430 L1440 360 L1440 900 L0 900Z" fill="url(#mountain2)" opacity="0.5"/>
-            <!-- Near mountains -->
-            <path d="M-100 900 L150 450 L300 550 L500 380 L620 500 L780 350 L900 480 L1050 400 L1200 500 L1350 420 L1540 550 L1540 900Z" fill="url(#mountain1)"/>
-            <!-- Snow caps hint -->
-            <path d="M480 380 L500 380 L510 395 L490 395Z" fill="url(#snow-cap)"/>
-            <path d="M760 350 L780 350 L795 370 L765 370Z" fill="url(#snow-cap)"/>
-            <path d="M1080 320 L1100 320 L1115 345 L1085 345Z" fill="url(#snow-cap)"/>
-            <!-- Treeline -->
-            <path d="M0 700 Q100 680 200 700 Q300 690 400 705 Q500 695 600 700 Q700 685 800 700 Q900 695 1000 700 Q1100 690 1200 705 Q1300 695 1440 700 L1440 900 L0 900Z" fill="#0a1628"/>
+
+            <!-- Sky gradient -->
+            <rect width="1000" height="380" fill="url(#sky)"/>
+
+            <!-- Sun -->
+            <circle cx="500" cy="155" r="55" fill="#EAA732" opacity="0.85"/>
+            <!-- Sun glow -->
+            <circle cx="500" cy="155" r="80" fill="#EAA732" opacity="0.1"/>
+
+            <!-- Sunset bands behind mountains -->
+            <rect x="200" y="160" width="600" height="6" fill="#EAA732" opacity="0.3" rx="1"/>
+            <rect x="220" y="172" width="560" height="5" fill="#DD4D39" opacity="0.2" rx="1"/>
+            <rect x="240" y="182" width="520" height="4" fill="#DD4D39" opacity="0.12" rx="1"/>
+
+            <!-- Far mountain range -->
+            <path d="M0 280 L80 210 L160 245 L260 170 L350 220 L450 175 L500 145 L550 175 L650 220 L740 170 L840 245 L920 210 L1000 260 L1000 380 L0 380Z" fill="url(#mtn-back)" opacity="0.5"/>
+            <!-- Far snow -->
+            <path d="M245 170 L260 170 L272 192 L248 192Z" fill="url(#snow-top)" opacity="0.5"/>
+            <path d="M485 145 L500 145 L515 170 L485 170Z" fill="url(#snow-top)" opacity="0.5"/>
+            <path d="M725 170 L740 170 L755 192 L728 192Z" fill="url(#snow-top)" opacity="0.5"/>
+
+            <!-- Near mountain range -->
+            <path d="M-50 380 L60 260 L140 300 L240 230 L340 280 L420 210 L500 250 L560 195 L630 250 L720 205 L810 270 L890 235 L970 285 L1050 250 L1050 380Z" fill="url(#mtn-front)"/>
+
+            <!-- Near snow caps -->
+            <path d="M225 230 L240 230 L255 258 L230 258 L238 248 L228 252Z" fill="url(#snow-top)"/>
+            <path d="M405 210 L420 210 L438 240 L408 240 L418 230 L408 234Z" fill="url(#snow-top)"/>
+            <path d="M545 195 L560 195 L580 228 L548 228 L558 216 L548 220Z" fill="url(#snow-top)"/>
+            <path d="M705 205 L720 205 L740 235 L710 235 L720 225 L710 228Z" fill="url(#snow-top)"/>
+
+            <!-- Trees left -->
+            <g fill="#1A2D40">
+                <polygon points="50,305 58,275 66,305"/>
+                <polygon points="68,308 78,272 88,308"/>
+                <polygon points="88,305 96,278 104,305"/>
+                <polygon points="105,310 115,276 125,310"/>
+                <polygon points="122,305 130,280 138,305"/>
+            </g>
+            <!-- Trees right -->
+            <g fill="#1A2D40">
+                <polygon points="860,295 868,268 876,295"/>
+                <polygon points="878,300 888,266 898,300"/>
+                <polygon points="898,295 906,270 914,295"/>
+                <polygon points="916,300 926,268 936,300"/>
+                <polygon points="935,295 943,272 951,295"/>
+            </g>
+
+            <!-- Gondola cable -->
+            <line x1="180" y1="220" x2="400" y2="280" stroke="#243F5C" stroke-width="1.5" opacity="0.35"/>
+            <!-- Gondola tower -->
+            <line x1="220" y1="210" x2="220" y2="235" stroke="#243F5C" stroke-width="2" opacity="0.35"/>
+            <!-- Gondola car -->
+            <g opacity="0.45">
+                <line x1="300" y1="252" x2="300" y2="264" stroke="#243F5C" stroke-width="1.2"/>
+                <rect x="292" y="264" width="16" height="12" rx="2" fill="#DD4D39"/>
+                <rect x="295" y="266" width="4" height="6" rx="1" fill="#EAA732" opacity="0.6"/>
+                <rect x="301" y="266" width="4" height="6" rx="1" fill="#EAA732" opacity="0.6"/>
+            </g>
+
+            <!-- Foreground snow hill -->
+            <path d="M0 330 Q150 310 300 325 Q450 315 500 320 Q650 310 800 325 Q900 315 1000 325 L1000 380 L0 380Z" fill="#F3EBD8" opacity="0.4"/>
         </svg>
     </div>
 
-    <!-- Stars -->
-    <div class="stars" id="stars"></div>
-
-    <!-- Snowfall -->
-    <div class="snowfall" id="snowfall"></div>
-
-    <!-- Main content -->
-    <main class="content">
+    <!-- Badge -->
+    <div class="badge-container">
         <div class="badge">Coming Winter 2026</div>
+    </div>
 
-        <h1 class="logo-text">
-            <span>Mirage Mountain</span>
-        </h1>
-        <p class="resort-label">Resort</p>
-
-        <p class="tagline">The best mountain you've never seen.</p>
-        <p class="sub-tagline">
-            Rising 6,100 feet above San Diego County, something extraordinary is taking shape on Palomar Mountain. Arrive a skeptic. Leave a believer.
+    <!-- Content -->
+    <div class="card">
+        <h2 class="card-headline">The Best Mountain <em>You've Never Seen.</em></h2>
+        <p class="card-body">
+            Rising 6,100 feet above San Diego County, something extraordinary is taking shape on Palomar Mountain. We couldn't make this up. We literally named ourselves after something that isn't real, and yet here we are. Arrive a skeptic. Leave a believer.
         </p>
 
         <div class="stats">
@@ -454,12 +558,10 @@
                 <div class="stat-value">6,100'</div>
                 <div class="stat-label">Summit Elevation</div>
             </div>
-            <div class="divider"></div>
             <div class="stat">
                 <div class="stat-value">Palomar</div>
                 <div class="stat-label">Mountain</div>
             </div>
-            <div class="divider"></div>
             <div class="stat">
                 <div class="stat-value">San Diego</div>
                 <div class="stat-label">County, CA</div>
@@ -468,46 +570,72 @@
 
         <div class="signup">
             <form class="signup-form" onsubmit="handleSignup(event)">
-                <input type="email" placeholder="Enter your email for first tracks" required>
+                <input type="email" placeholder="Your email for first tracks" required>
                 <button type="submit">Get Notified</button>
             </form>
             <p class="signup-note">Be the first to know when the mountain reveals itself.</p>
         </div>
 
         <div class="observatory">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+            <svg class="obs-icon" viewBox="0 0 24 24" fill="none" stroke="#EAA732" stroke-width="1.5">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
             Home of the historic Palomar Observatory. Ski by day. Stargaze by night.
         </div>
-    </main>
+    </div>
+
+    <!-- Bottom retro stripes -->
+    <div class="bottom-stripes">
+        <div class="stripe-lines">
+            <span class="l1"></span>
+            <span class="l2"></span>
+            <span class="l3"></span>
+            <span class="l4"></span>
+        </div>
+        <svg class="bottom-sun" viewBox="0 0 40 40">
+            <circle cx="20" cy="22" r="12" fill="#EAA732"/>
+            <line x1="4" y1="22" x2="36" y2="22" stroke="#F3EBD8" stroke-width="2"/>
+            <g stroke="#EAA732" stroke-width="1.2" stroke-linecap="round" opacity="0.6">
+                <line x1="20" y1="6" x2="20" y2="3"/>
+                <line x1="28" y1="9" x2="30.5" y2="7"/>
+                <line x1="33" y1="16" x2="36" y2="15"/>
+                <line x1="12" y1="9" x2="9.5" y2="7"/>
+                <line x1="7" y1="16" x2="4" y2="15"/>
+            </g>
+        </svg>
+        <div class="stripe-lines">
+            <span class="l1"></span>
+            <span class="l2"></span>
+            <span class="l3"></span>
+            <span class="l4"></span>
+        </div>
+    </div>
 
     <footer class="footer">
-        &copy; 2026 Mirage Mountain Resort. Palomar Mountain, CA &mdash; miragemountainresort.com
+        <p class="footer-text">Mirage Mountain Ski Resort &middot; Palomar Mountain, CA &middot; miragemountainresort.com</p>
     </footer>
 
-    <script>
-        // Generate stars
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 80; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            star.style.animationDuration = (2 + Math.random() * 3) + 's';
-            star.style.width = star.style.height = (1 + Math.random() * 2) + 'px';
-            starsContainer.appendChild(star);
-        }
+    <!-- Bottom stripe bar -->
+    <div class="stripe-bar">
+        <div class="s1"></div>
+        <div class="s2"></div>
+        <div class="s3"></div>
+        <div class="s4"></div>
+    </div>
 
-        // Generate snowflakes
+    <script>
+        // Gentle snow
         const snowfall = document.getElementById('snowfall');
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 18; i++) {
             const flake = document.createElement('div');
             flake.className = 'snowflake';
             flake.style.left = Math.random() * 100 + '%';
-            flake.style.animationDuration = (5 + Math.random() * 10) + 's';
-            flake.style.animationDelay = Math.random() * 10 + 's';
-            flake.style.opacity = 0.2 + Math.random() * 0.5;
-            flake.style.width = flake.style.height = (2 + Math.random() * 4) + 'px';
+            flake.style.animationDuration = (8 + Math.random() * 14) + 's';
+            flake.style.animationDelay = Math.random() * 12 + 's';
+            const size = (2 + Math.random() * 3);
+            flake.style.width = size + 'px';
+            flake.style.height = size + 'px';
             snowfall.appendChild(flake);
         }
 
@@ -531,14 +659,14 @@
 
                 if (response.ok) {
                     button.textContent = "You're In!";
-                    button.style.background = '#4CAF50';
+                    button.style.background = '#4A7C59';
                     input.value = '';
                 } else {
                     throw new Error('Failed');
                 }
             } catch (err) {
                 button.textContent = 'Try Again';
-                button.style.background = '#e74c3c';
+                button.style.background = '#8B2020';
             }
 
             button.disabled = false;
