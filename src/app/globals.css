@@ -1,26 +1,135 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* === COLORS === */
+  --color-navy: #1B2A4A;
+  --color-navy-light: #243558;
+  --color-cream: #F5F0E8;
+  --color-burnt-orange: #D4652A;
+  --color-burnt-orange-hover: #c05a22;
+  --color-gold: #E8A838;
+  --color-pine: #2D5F3A;
+  --color-frost: #3A8C8C;
+  --color-frost-hover: #2d7070;
+  --color-powder: #FAFAF7;
+  --color-warm-gray: #6B6560;
+  --color-light-gray: #D4CFC8;
+
+  /* === FONTS === */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-condensed: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Source Sans 3", "Source Sans Pro", sans-serif;
+  --font-handwritten: "Permanent Marker", cursive;
+
+  /* === ANIMATIONS === */
+  --animate-fade-up: fade-up 0.8s ease-out both;
+  --animate-fade-in: fade-in 0.6s ease-out both;
+  --animate-slide-in-left: slide-in-left 0.7s ease-out both;
+  --animate-slide-in-right: slide-in-right 0.7s ease-out both;
+  --animate-scale-in: scale-in 0.5s ease-out both;
+  --animate-stamp: stamp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes stamp {
+  from { opacity: 0; transform: scale(2) rotate(-8deg); }
+  to { opacity: 1; transform: scale(1) rotate(-3deg); }
+}
+
+/* === GLOBAL STYLES === */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  color: var(--color-warm-gray);
+  background: var(--color-cream);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Paper grain texture overlay for cream sections */
+.paper-texture {
+  position: relative;
+}
+.paper-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+.paper-texture > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Vintage photo filter */
+.vintage-photo {
+  filter: saturate(0.7) sepia(0.15) contrast(1.05) brightness(1.02);
+}
+
+/* Typography helpers */
+.font-display {
+  font-family: var(--font-display);
+}
+.font-condensed {
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.font-handwritten {
+  font-family: var(--font-handwritten);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-light-gray);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-warm-gray);
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-gold);
+  color: var(--color-navy);
 }
